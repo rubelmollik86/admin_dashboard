@@ -83,7 +83,7 @@ export default function Dashboard() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#ccc" }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -94,7 +94,12 @@ export default function Dashboard() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ color: "black" }}
+          >
             Admin Dashboard
           </Typography>
         </Toolbar>
@@ -136,7 +141,6 @@ export default function Dashboard() {
                 backgroundColor: "#500560",
                 marginBottom: "35px",
               }}
-              
             >
               <DashboardIcon sx={{ fontSize: "25px", color: "white" }} />
               <Typography sx={{ color: "white" }}>Dashboard</Typography>

@@ -4,9 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import fakeData from "./fakeData";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import image from "../Images/image.jpeg"
-
-
+import image from "../Images/image.jpeg";
 
 const SalesTable = () => {
   const [data, setData] = useState(fakeData);
@@ -14,7 +12,6 @@ const SalesTable = () => {
 
   const handleSearch = (e, status) => {
     const searchValue = e.target.value.toLowerCase();
-    console.log("searchValue", searchValue, status);
     let filterData;
     if (searchValue === "") {
       setSearchData(data);
@@ -26,7 +23,7 @@ const SalesTable = () => {
         return (
           item.invoiceId.toLowerCase().includes(searchValue) ||
           item.customerName.toLowerCase().includes(searchValue) ||
-          item.date.includes(searchValue) // Assuming date search is case-sensitive
+          item.date.includes(searchValue) 
         );
       });
     } else if (status === "customerName") {
@@ -47,28 +44,28 @@ const SalesTable = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 150 },
-    { field: "invoiceId", headerName: "Invoice Id", width: 150 },
-    { field: "date", headerName: "Date", width: 150 },
-    { field: "customerName", headerName: "Customer", width: 150 },
+    { field: "id", headerName: "ID", width: 100 },
+    { field: "invoiceId", headerName: "Invoice Id", width: 100 },
+    { field: "date", headerName: "Date", width: 100 },
+    { field: "customerName", headerName: "Customer", width: 100 },
     {
       field: "payableAmount",
       headerName: "Payable Amount",
       type: "number",
-      width: 150,
+      width: 100,
     },
     {
       field: "paidAmount",
       headerName: "Paid Amount",
       description: "This column has a value getter and is not sortable.",
       sortable: false,
-      width: 150,
+      width: 100,
     },
     {
       field: "dueAMount",
       headerName: "Due",
       type: "number",
-      width: 150,
+      width: 100,
     },
   ];
 
@@ -83,18 +80,29 @@ const SalesTable = () => {
           justifyContent={"space-between"}
         >
           <Grid item xs={12} sm={5}>
-            <input
-              style={{
-                width: "100%",
-                border: "1px solid #ADA7A7",
-                outline: "none",
-                height: "32px",
-                borderRadius: "5px",
-              }}
-              onChange={(e) => handleSearch(e, "all")}
-              placeholder="Search"
-              type="text"
-            />
+            <Box style={{ position: "relative" }}>
+              <input
+                style={{
+                  width: "100%",
+                  border: "1px solid #ADA7A7",
+                  outline: "none",
+                  height: "32px",
+                  borderRadius: "5px",
+                  padding: "0px 30px",
+                }}
+                onChange={(e) => handleSearch(e, "all")}
+                placeholder="Search"
+                type="text"
+              />
+              <SearchIcon
+                style={{
+                  position: "absolute",
+                  left: "5px",
+                  top: "5px",
+                  color: "#ccc",
+                }}
+              />
+            </Box>
           </Grid>
 
           <Grid item xs={12} sm={1}>
@@ -103,17 +111,18 @@ const SalesTable = () => {
                 display: "flex",
                 justifyContent: "sapce-between",
                 gap: "10px",
+                alignItems: "center",
               }}
             >
               <NotificationsNoneIcon />
-              <img style={{ width: "30px" }} src={image} alt="logo" />
+              <img style={{ width: "30px" }} src={image} alt="icon" />
             </Box>
           </Grid>
         </Grid>
       </Box>
 
-      <Box py={5} >
-        <Typography sx={{fontSize:"24px"}}>Sales Information</Typography>
+      <Box py={5}>
+        <Typography sx={{ fontSize: "24px" }}>Sales Information</Typography>
       </Box>
 
       <Box>
@@ -129,6 +138,7 @@ const SalesTable = () => {
                 outline: "none",
                 height: "32px",
                 borderRadius: "5px",
+                padding: "0px 10px",
               }}
               onChange={(e) => handleSearch(e, "customerName")}
               placeholder="Enter Customer Name"
@@ -146,6 +156,7 @@ const SalesTable = () => {
                 outline: "none",
                 height: "32px",
                 borderRadius: "5px",
+                padding: "0px 10px",
               }}
               onChange={(e) => handleSearch(e, "invoiceId")}
               placeholder="Enter Invoice Id"
@@ -163,6 +174,7 @@ const SalesTable = () => {
                 outline: "none",
                 height: "32px",
                 borderRadius: "5px",
+                padding: "0px 10px",
               }}
               onChange={(e) => handleSearch(e, "startDate")}
               placeholder="Start Date  "
@@ -180,6 +192,7 @@ const SalesTable = () => {
                 outline: "none",
                 height: "32px",
                 borderRadius: "5px",
+                padding: "0px 10px",
               }}
               placeholder="End Date"
               type="text"
@@ -190,7 +203,7 @@ const SalesTable = () => {
 
       {/*  table */}
 
-      <Box style={{ height: 400, width: "100%" }} mt={4}>
+      <Box style={{ height: 500, width: "100%" }} mt={4}>
         <DataGrid
           rows={searchData}
           columns={columns}
