@@ -1,25 +1,19 @@
 import { React, useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import { Box, Badge, Typography, Button, SwipeableDrawer } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import MenuIcon from "@mui/icons-material/Menu";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { useNavigate, Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import MuiListItem from "@material-ui/core/ListItem";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import StorageIcon from "@mui/icons-material/Storage";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import AssessmentIcon from "@mui/icons-material/Assessment";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
-import { HiMenuAlt1 } from "react-icons/hi";
 // Active color ListItem start
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +33,7 @@ const ListItem = withStyles({
       },
     },
     "&$selected:hover": {
-      backgroundColor: "var(--primary-color)",
+      backgroundColor: "yellow",
       color: "white",
       width: "90%",
       borderRadius: "0 5px 5px 0",
@@ -48,7 +42,7 @@ const ListItem = withStyles({
       },
     },
     "&:hover": {
-      backgroundColor: "var(--primary-color)",
+      backgroundColor: "tomato",
       color: "white",
       width: "90%",
       borderRadius: "0 5px 5px 0",
@@ -58,10 +52,6 @@ const ListItem = withStyles({
     },
   },
   selected: {},
-})(MuiListItem);
-
-const SubListItem = withStyles({
-  subselected: {},
 })(MuiListItem);
 
 // Active color ListItem end
@@ -117,49 +107,25 @@ const Drawer = styled(MuiDrawer, {
 
 function DashboardSideBar() {
   const theme = useTheme();
-  const user = "";
-  const agentId = user?.user?.agentId;
-  const [open, setOpen] = useState(false);
-  const [queues, setQueues] = useState(false);
-  const [account, setAccount] = useState(false);
-  const [report, setReport] = useState(false);
-  const [ledger, setLedger] = useState(false);
+  const [open, setOpen] = useState(true);
   const [transaction, setTransaction] = useState(false);
-  const navigate = useNavigate();
-
+  const [demoSub, setDemoSub] = useState(false);
   const classes = useStyles();
+
   const [selectedIndex, setSelectedIndex] = useState();
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
-    if (index === 2) {
+    if (index === 0) {
       setOpen(true);
-      setQueues(!queues);
-      setAccount(false);
-      setReport(false);
-      setLedger(false);
       setTransaction(false);
+    } else if (index === 1) {
+      setOpen(true);
+      setTransaction(!false);
     } else if (index === 3) {
       setOpen(true);
-      setQueues(false);
-      setAccount(!account);
-      setReport(false);
-      setLedger(false);
+      setDemoSub(!false);
       setTransaction(false);
-    } else if (index === 4) {
-      setOpen(true);
-      setQueues(false);
-      setAccount(false);
-      setReport(!report);
-      setLedger(false);
-      setTransaction(false);
-    } else if (index === 8) {
-      setOpen(true);
-      setQueues(false);
-      setAccount(false);
-      setReport(report);
-      setLedger(false);
-      setTransaction(!false);
     }
   };
 
@@ -182,14 +148,11 @@ function DashboardSideBar() {
     setState({ ...state, [anchor]: open });
   };
 
-    const [subSelectedIndex, setSubSelectedIndex] = useState();
-    
+  const [subSelectedIndex, setSubSelectedIndex] = useState();
+
   const handleSubListItemClick = (event, index) => {
     // setSubSelectedIndex(index);
   };
-
-
-
 
   //   -------------------
   return (
@@ -206,561 +169,7 @@ function DashboardSideBar() {
     >
       <CssBaseline />
 
-      {/* for mobile */}
-      <Box
-        sx={{
-          display: { xs: "none", sm: "none", md: "none" },
-          // background:'red',
-          position: "absolute",
-          right: 0,
-          "& .MuiDrawer-paper": {
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        {["left"].map((anchor) => (
-          <Box key={anchor}>
-            <Button onClick={toggleDrawer(anchor, true)}>
-              <HiMenuAlt1
-                style={{
-                  color: "var(--primary-color)",
-                  fontSize: "35px",
-                  marginTop: "20px",
-                }}
-              />
-            </Button>
-            <SwipeableDrawer
-              anchor={anchor}
-              open={state[anchor]}
-              onClose={toggleDrawer(anchor, false)}
-              onOpen={toggleDrawer(anchor, true)}
-            >
-              <Box
-                backgroundColor="var(--secondary-color)"
-                height="100vh"
-                width="250px"
-                py="50px"
-                sx={{
-                  borderRight: "2px solid var(--primary-color)",
-                  overflow: "scroll",
-                  height: "100%",
-                  "&::-webkit-scrollbar-thumb": {
-                    display: "none !important",
-                    width: "0px important",
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    display: "none !important",
-                  },
-                  "&::-webkit-scrollbar": {
-                    display: "none !important",
-                  },
-                }}
-              >
-                <List>
-                  <NavLink
-                    to="/admin/dashboard"
-                    style={{
-                      display: "block",
-                      marginBottom: "10px",
-                      textDecoration: "none",
-                      color: "var(--card-color)",
-                    }}
-                  >
-                    <ListItem
-                      selected={selectedIndex === 0}
-                      onClick={(event) => handleListItemClick(event, 0)}
-                      style={{ padding: "0px" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "5px 3px 5px 20px",
-                        }}
-                      >
-                        <DashboardIcon
-                          sx={{
-                            fontSize: "16px",
-                          }}
-                        />
-                        <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                          Dashboard
-                        </ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-
-                  <NavLink
-                    to="/admin/searchManage"
-                    style={{
-                      display: "block",
-                      marginBottom: "10px",
-                      textDecoration: "none",
-                      color: "var(--card-color)",
-                    }}
-                  >
-                    <ListItem
-                      selected={selectedIndex === 2}
-                      onClick={(event) => handleListItemClick(event, 2)}
-                      style={{ padding: "0px" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "5px 3px 5px 20px",
-                        }}
-                      >
-                        <StorageIcon
-                          sx={{
-                            fontSize: "16px",
-                          }}
-                        />
-                        <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                          Manage
-                        </ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-
-                  <NavLink
-                    to="/admin/UserManage"
-                    style={{
-                      display: "block",
-                      marginBottom: "10px",
-                      textDecoration: "none",
-                      color: "var(--card-color)",
-                    }}
-                  >
-                    <ListItem
-                      selected={selectedIndex === 5}
-                      onClick={(event) => handleListItemClick(event, 5)}
-                      style={{ padding: "0px" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "5px 3px 5px 20px",
-                        }}
-                      >
-                        <PeopleAltIcon
-                          sx={{
-                            fontSize: "16px",
-                          }}
-                        />
-                        <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                          User
-                        </ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-                  <NavLink
-                    to="/admin/bookingManage"
-                    style={{
-                      display: "block",
-                      marginBottom: "10px",
-                      textDecoration: "none",
-                      color: "var(--card-color)",
-                    }}
-                  >
-                    <ListItem
-                      selected={selectedIndex === 3}
-                      onClick={(event) => handleListItemClick(event, 3)}
-                      style={{ padding: "0px" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "5px 3px 5px 20px",
-                        }}
-                      >
-                        <AccountBalanceIcon
-                          sx={{
-                            fontSize: "16px",
-                          }}
-                        />
-                        <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                          Booking
-                          {/* <Badge
-                      badgeContent={`${bookCount?.IssueOnProcessing}`}
-                      sx={{
-                        ml: 1,
-                        span: {
-                          color: "#fff",
-                          bgcolor: `${
-                            selectedIndex === 3
-                              ? "var(--primary-color)"
-                              : "var(--secondary-color)"
-                          }`,
-                          top: `${open ? "12px" : 0}`,
-                          right: `${open ? "-15px" : "-10px"}`,
-                        },
-                      }}
-                    >
-                      {open ? "Booking" : null}
-                    </Badge> */}
-                        </ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-
-                  {/* Sub Menu Account Section start  */}
-
-                  {/* {selectedIndex === 3 && account && (
-              <Box className="dash-sub-menu">
-                <Box sx={{ opacity: open ? 1 : 0 }}>
-                  <NavLink
-                    to="/admin/bookingManage"
-                    style={{
-                      display: "block",
-                      textDecoration: "none",
-                      color: "var(--secondary-color)",
-                    }}
-                  >
-                    <SubListItem style={{ padding: "0px" }}>
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "0px 3px 0px 18px",
-                        }}
-                      >
-                        <ListItemText
-                          sx={{
-                            opacity: open ? 1 : 0,
-                            ml: 1,
-                          }}
-                        >
-                          Air Ticket
-                        </ListItemText>
-                      </ListItemButton>
-                    </SubListItem>
-                  </NavLink>
-                </Box>
-              </Box>
-            )} */}
-                  {/* Sub Menu Account Section end  */}
-                  <NavLink
-                    to="/admin/deposit"
-                    style={{
-                      display: "block",
-                      marginBottom: "10px",
-                      textDecoration: "none",
-                      color: "var(--card-color)",
-                    }}
-                  >
-                    <ListItem
-                      selected={selectedIndex === 6}
-                      onClick={(event) => handleListItemClick(event, 6)}
-                      style={{ padding: "0px" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "5px 3px 5px 20px",
-                        }}
-                      >
-                        <MonetizationOnOutlinedIcon
-                          sx={{
-                            fontSize: "16px",
-                          }}
-                        />
-                        <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                          Payment
-                        </ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-
-                  <NavLink
-                    to="/admin/userdeposit"
-                    style={{
-                      display: "block",
-                      marginBottom: "10px",
-                      textDecoration: "none",
-                      color: "var(--card-color)",
-                    }}
-                  >
-                    <ListItem
-                      selected={selectedIndex === 8}
-                      onClick={(event) => handleListItemClick(event, 8)}
-                      style={{ padding: "0px" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "5px 3px 5px 20px",
-                        }}
-                      >
-                        <AccountBalanceWalletIcon
-                          sx={{
-                            fontSize: "16px",
-                          }}
-                        />
-
-                        <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                          User Transaction
-                          {/* <Badge
-                      badgeContent={`${paymentCount?.TotalPending}`}
-                      sx={{
-                        ml: 1,
-                        span: {
-                          color: "#fff",
-                          bgcolor: `${
-                            selectedIndex === 8
-                              ? "var(--primary-color)"
-                              : "var(--secondary-color)"
-                          }`,
-                          top: `${open ? "12px" : 0}`,
-                          right: `${open ? "-15px" : "-10px"}`,
-                        },
-                      }}
-                    >
-                      {open ? "User Deposit" : null}
-                    </Badge> */}
-                        </ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-                  {selectedIndex === 8 && transaction && (
-                    <Box
-                      sx={{
-                        display: open === false ? "none" : "",
-                        a: {
-                          display: "block",
-                          textDecoration: "none",
-                          color: "var(--card-color)",
-                          paddingLeft: "30px",
-                          marginBottom: 0.2,
-                          fontWeight: 600,
-                        },
-                        ".active": {
-                          backgroundColor: "var(--primary-color)",
-                          color: "var(--white)",
-                          width: "80%",
-                          borderTopRightRadius: "5px",
-                          borderBottomRightRadius: "5px",
-                        },
-                      }}
-                    >
-                      <Box sx={{ opacity: open ? 1 : 0 }}>
-                        <NavLink to="/admin/userdeposit">
-                          <Typography
-                            sx={{
-                              cursor: "pointer",
-                              fontSize: 12,
-                              py: 1,
-                              px: 1,
-                              fontWeight: 500,
-                            }}
-                          >
-                            User Deposit
-                          </Typography>
-                        </NavLink>
-
-                        <NavLink to="/admin/userWithdraw">
-                          <Typography
-                            sx={{
-                              cursor: "pointer",
-                              fontSize: 12,
-                              py: 1,
-                              px: 1,
-                              fontWeight: 500,
-                            }}
-                          >
-                            User Withdraw
-                          </Typography>
-                        </NavLink>
-                      </Box>
-                    </Box>
-                  )}
-
-                  <NavLink
-                    to="/admin/generalLedger"
-                    style={{
-                      display: "block",
-                      marginBottom: "10px",
-                      textDecoration: "none",
-                      color: "var(--card-color)",
-                    }}
-                  >
-                    <ListItem
-                      selected={selectedIndex === 4}
-                      onClick={(event) => handleListItemClick(event, 4)}
-                      style={{ padding: "0px" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "5px 3px 5px 20px",
-                        }}
-                      >
-                        <AssessmentIcon
-                          sx={{
-                            fontSize: "16px",
-                          }}
-                        />
-                        <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                          Ledger
-                        </ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-                  {selectedIndex === 4 && report && (
-                    <Box
-                      sx={{
-                        display: open === false ? "none" : "",
-                        a: {
-                          display: "block",
-                          textDecoration: "none",
-                          color: "var(--card-color)",
-                          paddingLeft: "30px",
-                          marginBottom: 0.2,
-                          fontWeight: 600,
-                        },
-                        ".active": {
-                          backgroundColor: "var(--primary-color)",
-                          color: "var(--white)",
-                          width: "80%",
-                          borderTopRightRadius: "5px",
-                          borderBottomRightRadius: "5px",
-                        },
-                      }}
-                    >
-                      <Box sx={{ opacity: open ? 1 : 0 }}>
-                        <NavLink to="/admin/userLedger">
-                          <Typography
-                            sx={{
-                              cursor: "pointer",
-                              fontSize: 12,
-                              py: 1,
-                              px: 1,
-                              fontWeight: 500,
-                            }}
-                          >
-                            User Ledger Report
-                          </Typography>
-                        </NavLink>
-
-                        <NavLink to="/admin/generalLedger">
-                          <Typography
-                            sx={{
-                              cursor: "pointer",
-                              fontSize: 12,
-                              py: 1,
-                              px: 1,
-                              fontWeight: 500,
-                            }}
-                          >
-                            Agent Ledger Report
-                          </Typography>
-                        </NavLink>
-                      </Box>
-                    </Box>
-                  )}
-
-                  {/* Sub Menu report Section end  */}
-
-                  {/* {selectedIndex === 4 && report && (
-              <Box
-                className="dash-sub-menu"
-                style={{ display: open === false ? "none" : "" }}
-              >
-                <Box sx={{ opacity: open ? 1 : 0 }}>
-                  <NavLink
-                    to="/admin/userLedger"
-                    style={{
-                      display: "block",
-                      textDecoration: "none",
-                      color: "var(--secondary-color)",
-                    }}
-                  >
-                    <SubListItem style={{ padding: "0px" }}>
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "0px 3px 0px 18px",
-                        }}
-                      >
-                        <ListItemText
-                          sx={{
-                            opacity: open ? 1 : 0,
-                            ml: 1,
-                          }}
-                        >
-                          User General Ledger
-                        </ListItemText>
-                      </ListItemButton>
-                    </SubListItem>
-                  </NavLink>
-                  <NavLink
-                    to="/admin/generalLedger"
-                    style={{
-                      display: "block",
-                      textDecoration: "none",
-                      color: "var(--secondary-color)",
-                    }}
-                  >
-                    <SubListItem style={{ padding: "0px" }}>
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "0px 3px 0px 18px",
-                        }}
-                      >
-                        <ListItemText
-                          sx={{
-                            opacity: open ? 1 : 0,
-                            ml: 1,
-                          }}
-                        >
-                          General Ledger
-                        </ListItemText>
-                      </ListItemButton>
-                    </SubListItem>
-                  </NavLink>
-                </Box>
-              </Box>
-            )} */}
-                  {/* Sub Menu report Section end  */}
-
-                  <NavLink
-                    to="/"
-                    style={{
-                      display: "block",
-                      marginTop: "40%",
-                      textDecoration: "none",
-                      color: "var(--card-color)",
-                    }}
-                  >
-                    <ListItem
-                      selected={selectedIndex === 7}
-                      //   onClick={() => adminlogout()}
-                      style={{ padding: "0px" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "5px 3px 5px 20px",
-                        }}
-                      >
-                        <ExitToAppIcon
-                          sx={{
-                            fontSize: "16px",
-                          }}
-                        />
-                        <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                          Log Out
-                        </ListItemText>
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-                </List>
-              </Box>
-            </SwipeableDrawer>
-          </Box>
-        ))}
-      </Box>
-
       {/*  web */}
-
       <Box
         sx={{
           display: { xs: "block", sm: "block", md: "block" },
@@ -823,8 +232,9 @@ function DashboardSideBar() {
                 </ListItem>
               </NavLink>
 
+              {/* Sub Menu Account Section end  */}
               <NavLink
-                to="/admin/searchManage"
+                to="/transection"
                 style={{
                   display: "block",
                   marginBottom: "10px",
@@ -833,8 +243,8 @@ function DashboardSideBar() {
                 }}
               >
                 <ListItem
-                  selected={selectedIndex === 2}
-                  onClick={(event) => handleListItemClick(event, 2)}
+                  selected={selectedIndex === 1}
+                  onClick={(event) => handleListItemClick(event, 1)}
                   style={{ padding: "0px" }}
                 >
                   <ListItemButton
@@ -843,51 +253,74 @@ function DashboardSideBar() {
                       p: "5px 3px 5px 20px",
                     }}
                   >
-                    <StorageIcon
+                    <AccountBalanceWalletIcon
                       sx={{
                         fontSize: "16px",
                       }}
                     />
-                    <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                      Manage
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
-              </NavLink>
 
-              <NavLink
-                to="/admin/UserManage"
-                style={{
-                  display: "block",
-                  marginBottom: "10px",
-                  textDecoration: "none",
-                  color: "var(--card-color)",
-                }}
-              >
-                <ListItem
-                  selected={selectedIndex === 5}
-                  onClick={(event) => handleListItemClick(event, 5)}
-                  style={{ padding: "0px" }}
-                >
-                  <ListItemButton
-                    sx={{
-                      justifyContent: open ? "initial" : "center",
-                      p: "5px 3px 5px 20px",
-                    }}
-                  >
-                    <PeopleAltIcon
-                      sx={{
-                        fontSize: "16px",
-                      }}
-                    />
                     <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                      User
+                      User Transaction
                     </ListItemText>
                   </ListItemButton>
                 </ListItem>
               </NavLink>
+              {selectedIndex === 1 && transaction && (
+                <Box
+                  sx={{
+                    display: open === false ? "none" : "",
+                    a: {
+                      display: "block",
+                      textDecoration: "none",
+                      color: "var(--card-color)",
+                      paddingLeft: "30px",
+                      marginBottom: 0.2,
+                      fontWeight: 600,
+                    },
+                    ".active": {
+                      backgroundColor: "var(--primary-color)",
+                      color: "var(--white)",
+                      width: "80%",
+                      borderTopRightRadius: "5px",
+                      borderBottomRightRadius: "5px",
+                    },
+                  }}
+                >
+                  <Box sx={{ opacity: open ? 1 : 0 }}>
+                    <NavLink to="/transection">
+                      <Typography
+                        sx={{
+                          cursor: "pointer",
+                          fontSize: 12,
+                          py: 1,
+                          px: 1,
+                          fontWeight: 500,
+                        }}
+                      >
+                        User Transaction
+                      </Typography>
+                    </NavLink>
+
+                    <NavLink to="/widthdraw">
+                      <Typography
+                        sx={{
+                          cursor: "pointer",
+                          fontSize: 12,
+                          py: 1,
+                          px: 1,
+                          fontWeight: 500,
+                        }}
+                      >
+                        User Withdraw
+                      </Typography>
+                    </NavLink>
+                  </Box>
+                </Box>
+              )}
+
+              {/* Sub Menu User Section end  */}
               <NavLink
-                to="/admin/bookingManage"
+                to="/user"
                 style={{
                   display: "block",
                   marginBottom: "10px",
@@ -906,123 +339,6 @@ function DashboardSideBar() {
                       p: "5px 3px 5px 20px",
                     }}
                   >
-                    <AccountBalanceIcon
-                      sx={{
-                        fontSize: "16px",
-                      }}
-                    />
-                    <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                      Booking
-                      {/* <Badge
-                      badgeContent={`${bookCount?.IssueOnProcessing}`}
-                      sx={{
-                        ml: 1,
-                        span: {
-                          color: "#fff",
-                          bgcolor: `${
-                            selectedIndex === 3
-                              ? "var(--primary-color)"
-                              : "var(--secondary-color)"
-                          }`,
-                          top: `${open ? "12px" : 0}`,
-                          right: `${open ? "-15px" : "-10px"}`,
-                        },
-                      }}
-                    >
-                      {open ? "Booking" : null}
-                    </Badge> */}
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
-              </NavLink>
-
-              {/* Sub Menu Account Section start  */}
-
-              {/* {selectedIndex === 3 && account && (
-              <Box className="dash-sub-menu">
-                <Box sx={{ opacity: open ? 1 : 0 }}>
-                  <NavLink
-                    to="/admin/bookingManage"
-                    style={{
-                      display: "block",
-                      textDecoration: "none",
-                      color: "var(--secondary-color)",
-                    }}
-                  >
-                    <SubListItem style={{ padding: "0px" }}>
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "0px 3px 0px 18px",
-                        }}
-                      >
-                        <ListItemText
-                          sx={{
-                            opacity: open ? 1 : 0,
-                            ml: 1,
-                          }}
-                        >
-                          Air Ticket
-                        </ListItemText>
-                      </ListItemButton>
-                    </SubListItem>
-                  </NavLink>
-                </Box>
-              </Box>
-            )} */}
-              {/* Sub Menu Account Section end  */}
-              <NavLink
-                to="/admin/deposit"
-                style={{
-                  display: "block",
-                  marginBottom: "10px",
-                  textDecoration: "none",
-                  color: "var(--card-color)",
-                }}
-              >
-                <ListItem
-                  selected={selectedIndex === 6}
-                  onClick={(event) => handleListItemClick(event, 6)}
-                  style={{ padding: "0px" }}
-                >
-                  <ListItemButton
-                    sx={{
-                      justifyContent: open ? "initial" : "center",
-                      p: "5px 3px 5px 20px",
-                    }}
-                  >
-                    <MonetizationOnOutlinedIcon
-                      sx={{
-                        fontSize: "16px",
-                      }}
-                    />
-                    <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                      Payment
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
-              </NavLink>
-
-              <NavLink
-                to="/admin/userdeposit"
-                style={{
-                  display: "block",
-                  marginBottom: "10px",
-                  textDecoration: "none",
-                  color: "var(--card-color)",
-                }}
-              >
-                <ListItem
-                  selected={selectedIndex === 8}
-                  onClick={(event) => handleListItemClick(event, 8)}
-                  style={{ padding: "0px" }}
-                >
-                  <ListItemButton
-                    sx={{
-                      justifyContent: open ? "initial" : "center",
-                      p: "5px 3px 5px 20px",
-                    }}
-                  >
                     <AccountBalanceWalletIcon
                       sx={{
                         fontSize: "16px",
@@ -1030,30 +346,12 @@ function DashboardSideBar() {
                     />
 
                     <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                      User Transaction
-                      {/* <Badge
-                      badgeContent={`${paymentCount?.TotalPending}`}
-                      sx={{
-                        ml: 1,
-                        span: {
-                          color: "#fff",
-                          bgcolor: `${
-                            selectedIndex === 8
-                              ? "var(--primary-color)"
-                              : "var(--secondary-color)"
-                          }`,
-                          top: `${open ? "12px" : 0}`,
-                          right: `${open ? "-15px" : "-10px"}`,
-                        },
-                      }}
-                    >
-                      {open ? "User Deposit" : null}
-                    </Badge> */}
+                      User submenu
                     </ListItemText>
                   </ListItemButton>
                 </ListItem>
               </NavLink>
-              {selectedIndex === 8 && transaction && (
+              {selectedIndex === 3 && demoSub && (
                 <Box
                   sx={{
                     display: open === false ? "none" : "",
@@ -1075,7 +373,7 @@ function DashboardSideBar() {
                   }}
                 >
                   <Box sx={{ opacity: open ? 1 : 0 }}>
-                    <NavLink to="/admin/userdeposit">
+                    <NavLink to="/user">
                       <Typography
                         sx={{
                           cursor: "pointer",
@@ -1085,11 +383,11 @@ function DashboardSideBar() {
                           fontWeight: 500,
                         }}
                       >
-                        User Deposit
+                        User 1
                       </Typography>
                     </NavLink>
 
-                    <NavLink to="/admin/userWithdraw">
+                    <NavLink to="/widthdraw">
                       <Typography
                         sx={{
                           cursor: "pointer",
@@ -1099,161 +397,12 @@ function DashboardSideBar() {
                           fontWeight: 500,
                         }}
                       >
-                        User Withdraw
-                      </Typography>
-                    </NavLink>
-                  </Box>
-                </Box>
-              )}
-
-              <NavLink
-                to="/admin/generalLedger"
-                style={{
-                  display: "block",
-                  marginBottom: "10px",
-                  textDecoration: "none",
-                  color: "var(--card-color)",
-                }}
-              >
-                <ListItem
-                  selected={selectedIndex === 4}
-                  onClick={(event) => handleListItemClick(event, 4)}
-                  style={{ padding: "0px" }}
-                >
-                  <ListItemButton
-                    sx={{
-                      justifyContent: open ? "initial" : "center",
-                      p: "5px 3px 5px 20px",
-                    }}
-                  >
-                    <AssessmentIcon
-                      sx={{
-                        fontSize: "16px",
-                      }}
-                    />
-                    <ListItemText sx={{ opacity: open ? 1 : 0, ml: 1 }}>
-                      Ledger
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
-              </NavLink>
-              {selectedIndex === 4 && report && (
-                <Box
-                  sx={{
-                    display: open === false ? "none" : "",
-                    a: {
-                      display: "block",
-                      textDecoration: "none",
-                      color: "var(--card-color)",
-                      paddingLeft: "30px",
-                      marginBottom: 0.2,
-                      fontWeight: 600,
-                    },
-                    ".active": {
-                      backgroundColor: "var(--primary-color)",
-                      color: "var(--white)",
-                      width: "80%",
-                      borderTopRightRadius: "5px",
-                      borderBottomRightRadius: "5px",
-                    },
-                  }}
-                >
-                  <Box sx={{ opacity: open ? 1 : 0 }}>
-                    <NavLink to="/admin/userLedger">
-                      <Typography
-                        sx={{
-                          cursor: "pointer",
-                          fontSize: 12,
-                          py: 1,
-                          px: 1,
-                          fontWeight: 500,
-                        }}
-                      >
-                        User Ledger Report
-                      </Typography>
-                    </NavLink>
-
-                    <NavLink to="/admin/generalLedger">
-                      <Typography
-                        sx={{
-                          cursor: "pointer",
-                          fontSize: 12,
-                          py: 1,
-                          px: 1,
-                          fontWeight: 500,
-                        }}
-                      >
-                        Agent Ledger Report
+                        User 2
                       </Typography>
                     </NavLink>
                   </Box>
                 </Box>
               )}
-
-              {/* Sub Menu report Section end  */}
-
-              {/* {selectedIndex === 4 && report && (
-              <Box
-                className="dash-sub-menu"
-                style={{ display: open === false ? "none" : "" }}
-              >
-                <Box sx={{ opacity: open ? 1 : 0 }}>
-                  <NavLink
-                    to="/admin/userLedger"
-                    style={{
-                      display: "block",
-                      textDecoration: "none",
-                      color: "var(--secondary-color)",
-                    }}
-                  >
-                    <SubListItem style={{ padding: "0px" }}>
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "0px 3px 0px 18px",
-                        }}
-                      >
-                        <ListItemText
-                          sx={{
-                            opacity: open ? 1 : 0,
-                            ml: 1,
-                          }}
-                        >
-                          User General Ledger
-                        </ListItemText>
-                      </ListItemButton>
-                    </SubListItem>
-                  </NavLink>
-                  <NavLink
-                    to="/admin/generalLedger"
-                    style={{
-                      display: "block",
-                      textDecoration: "none",
-                      color: "var(--secondary-color)",
-                    }}
-                  >
-                    <SubListItem style={{ padding: "0px" }}>
-                      <ListItemButton
-                        sx={{
-                          justifyContent: open ? "initial" : "center",
-                          p: "0px 3px 0px 18px",
-                        }}
-                      >
-                        <ListItemText
-                          sx={{
-                            opacity: open ? 1 : 0,
-                            ml: 1,
-                          }}
-                        >
-                          General Ledger
-                        </ListItemText>
-                      </ListItemButton>
-                    </SubListItem>
-                  </NavLink>
-                </Box>
-              </Box>
-            )} */}
-              {/* Sub Menu report Section end  */}
 
               <NavLink
                 to="/"
