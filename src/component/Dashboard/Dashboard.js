@@ -236,8 +236,10 @@ export default function Dashboard() {
         <Divider />
       </Drawer>
       <Main open={open}>
-        <DrawerHeader />
-        <SalesTable />
+
+        {/* <DrawerHeader />
+        <SalesTable /> */}
+
       </Main>
     </Box>
   );
